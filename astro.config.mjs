@@ -3,12 +3,16 @@ import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 
+import cloudflare from "@astrojs/cloudflare";
+
 export default defineConfig({
   site: "https://llcforlandlords.com",
   trailingSlash: "never",
+
   build: {
     format: "directory",
   },
+
   integrations: [
     tailwind({
       applyBaseStyles: false,
@@ -20,4 +24,6 @@ export default defineConfig({
       filter: (page) => !page.includes("/404"),
     }),
   ],
+
+  adapter: cloudflare()
 });
