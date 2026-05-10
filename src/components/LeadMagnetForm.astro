@@ -1,0 +1,68 @@
+---
+export interface Props {
+  templateName: string;
+  description?: string;
+  formAction?: string;
+  buttonLabel?: string;
+}
+
+const {
+  templateName,
+  description,
+  formAction = "#TODO-esp-endpoint",
+  buttonLabel = "Send me the template",
+} = Astro.props;
+---
+
+<div class="my-10 bg-slate-deep text-canvas-white rounded-md p-6 md:p-8">
+  <div class="md:flex md:items-start md:gap-8">
+    <div class="md:flex-1">
+      <h3 class="font-heading font-extrabold text-xl md:text-2xl mb-2 text-canvas-white">
+        Get the {templateName}
+      </h3>
+      {
+        description && (
+          <p class="text-canvas-card leading-relaxed mb-4 md:mb-0">{description}</p>
+        )
+      }
+    </div>
+
+    <form
+      action={formAction}
+      method="post"
+      class="mt-4 md:mt-0 md:flex-1 space-y-3"
+      data-lead-magnet={templateName}
+    >
+      <label class="block">
+        <span class="sr-only">First name</span>
+        <input
+          type="text"
+          name="firstName"
+          required
+          placeholder="First name"
+          class="w-full px-4 py-2.5 rounded-md text-slate-deep border border-transparent focus:border-rust focus:outline-none"
+        />
+      </label>
+      <label class="block">
+        <span class="sr-only">Email</span>
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder="you@example.com"
+          class="w-full px-4 py-2.5 rounded-md text-slate-deep border border-transparent focus:border-rust focus:outline-none"
+        />
+      </label>
+      <input type="hidden" name="template" value={templateName} />
+      <button
+        type="submit"
+        class="w-full px-5 py-2.5 rounded-md font-semibold text-sm bg-rust hover:bg-rust-hover text-white transition-colors"
+      >
+        {buttonLabel}
+      </button>
+      <p class="text-xs text-canvas-card/80 leading-relaxed">
+        We'll email the template right away, plus occasional landlord-LLC tips. Unsubscribe anytime.
+      </p>
+    </form>
+  </div>
+</div>

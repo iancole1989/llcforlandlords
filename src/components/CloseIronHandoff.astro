@@ -1,0 +1,25 @@
+---
+import CTAButton from "@/components/CTAButton.astro";
+
+export interface Props {
+  headline?: string;
+  body?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const {
+  headline = "LLC done. Now finance the property.",
+  body = "Once your LLC is set up, CloseIron runs an instant assessment on what investment-property financing you'd qualify for — DSCR, bridge, fix-and-flip. Sixty-second quiz, no credit pull, vetted lender match.",
+  ctaLabel = "See what you'd qualify for →",
+  ctaHref = "https://closeiron.com/quiz/dscr",
+} = Astro.props;
+---
+
+<aside class="my-10 bg-canvas-subtle border-l-4 border-rust rounded-r-md p-6">
+  <h3 class="font-heading font-bold text-xl text-slate-deep mb-2">{headline}</h3>
+  <p class="text-slate-charcoal leading-relaxed mb-4">{body}</p>
+  <CTAButton href={ctaHref} variant="closeiron" ctaType="closeiron-handoff">
+    {ctaLabel}
+  </CTAButton>
+</aside>

@@ -1,0 +1,50 @@
+---
+import { SITE } from "@/lib/site";
+import AffiliateDisclosure from "@/components/AffiliateDisclosure.astro";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-canvas-subtle border-t border-line mt-20">
+  <div class="container-wide py-12">
+    <div class="grid md:grid-cols-3 gap-8 mb-10">
+      <div>
+        <a href="/" class="flex items-center gap-2.5 mb-3">
+          <span class="block w-2.5 h-2.5 bg-rust rounded-sm"></span>
+          <span class="font-heading font-extrabold text-slate-deep text-lg tracking-tight">
+            {SITE.name}
+          </span>
+        </a>
+        <p class="text-sm text-caution leading-relaxed">
+          {SITE.tagline}
+        </p>
+      </div>
+
+      <div>
+        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-deep mb-3">Site</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/" class="text-slate-charcoal hover:text-rust">LLC Guides</a></li>
+          <li><a href="/about" class="text-slate-charcoal hover:text-rust">About</a></li>
+          <li><a href="/editorial-standards" class="text-slate-charcoal hover:text-rust">Editorial Standards</a></li>
+          <li><a href="/contact" class="text-slate-charcoal hover:text-rust">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-deep mb-3">Legal</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/affiliate-disclosure" class="text-slate-charcoal hover:text-rust">Affiliate Disclosure</a></li>
+          <li><a href="/privacy" class="text-slate-charcoal hover:text-rust">Privacy Policy</a></li>
+          <li><a href="/sitemap-index.xml" class="text-slate-charcoal hover:text-rust">Sitemap</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <AffiliateDisclosure variant="compact" />
+
+    <div class="mt-8 pt-6 border-t border-line text-xs text-caution flex flex-wrap items-center justify-between gap-3">
+      <span>© {year} {SITE.name}. All content general information only — not legal, tax, or financial advice.</span>
+      <span>v1.0</span>
+    </div>
+  </div>
+</footer>

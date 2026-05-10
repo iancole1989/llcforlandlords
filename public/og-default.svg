@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#FFFFFF" />
+  <rect x="0" y="0" width="1200" height="8" fill="#D97706" />
+  <g transform="translate(80, 200)">
+    <rect x="0" y="0" width="32" height="32" rx="4" fill="#D97706" />
+    <text x="48" y="28" font-family="'Manrope', system-ui, sans-serif" font-weight="800" font-size="56" fill="#1F2937" letter-spacing="-1.5">LLCforLandlords</text>
+  </g>
+  <text x="80" y="320" font-family="'Manrope', system-ui, sans-serif" font-weight="700" font-size="48" fill="#1F2937">Plain-English LLC guidance,</text>
+  <text x="80" y="380" font-family="'Manrope', system-ui, sans-serif" font-weight="700" font-size="48" fill="#1F2937">written for landlords.</text>
+  <text x="80" y="540" font-family="'Inter', system-ui, sans-serif" font-weight="500" font-size="22" fill="#6B7280">Real filing fees. Real timelines. Real tradeoffs.</text>
+</svg>

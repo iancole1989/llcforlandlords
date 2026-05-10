@@ -1,0 +1,24 @@
+---
+export interface Props {
+  takeaways: string[];
+  title?: string;
+}
+
+const { takeaways, title = "Key takeaways" } = Astro.props;
+---
+
+<aside class="my-8 bg-canvas-card border border-line rounded-md p-5 md:p-6">
+  <h2 class="font-heading font-bold text-base uppercase tracking-wider text-slate-deep mb-3">
+    {title}
+  </h2>
+  <ul class="space-y-2">
+    {
+      takeaways.map((point) => (
+        <li class="flex gap-2.5 text-slate-charcoal leading-relaxed">
+          <span class="text-rust font-bold flex-shrink-0 mt-0.5">→</span>
+          <span>{point}</span>
+        </li>
+      ))
+    }
+  </ul>
+</aside>

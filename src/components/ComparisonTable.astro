@@ -1,0 +1,120 @@
+---
+import CTAButton from "@/components/CTAButton.astro";
+
+export interface ComparisonService {
+  name: string;
+  monthlyPrice?: string;
+  oneTimePrice?: string;
+  freeFirstYear?: boolean;
+  freeRegisteredAgent?: boolean;
+  primaryStrength: string;
+  weakness?: string;
+  affiliateUrl: string;
+  affiliateLabel?: string;
+  recommendedFor?: string;
+}
+
+export interface Props {
+  services: ComparisonService[];
+  caption?: string;
+}
+
+const { services, caption } = Astro.props;
+---
+
+<div class="my-8">
+  {caption && <p class="text-sm text-caution mb-3 italic">{caption}</p>}
+
+  <div class="hidden md:block overflow-x-auto rounded-md border border-line">
+    <table class="w-full text-sm border-collapse">
+      <thead class="bg-canvas-card text-slate-deep">
+        <tr>
+          <th class="text-left font-semibold p-3">Service</th>
+          <th class="text-left font-semibold p-3">Pricing</th>
+          <th class="text-left font-semibold p-3">Strength</th>
+          <th class="text-left font-semibold p-3">Watch out</th>
+          <th class="text-left font-semibold p-3"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          services.map((s) => (
+            <tr class="border-t border-line">
+              <td class="p-3 font-semibold text-slate-deep align-top">
+                {s.name}
+                {s.recommendedFor && (
+                  <div class="text-xs text-caution font-normal mt-0.5">{s.recommendedFor}</div>
+                )}
+              </td>
+              <td class="p-3 align-top">
+                {s.oneTimePrice && <div>{s.oneTimePrice}</div>}
+                {s.monthlyPrice && <div>{s.monthlyPrice}</div>}
+                {s.freeFirstYear && (
+                  <div class="text-success text-xs font-medium mt-1">First year free</div>
+                )}
+                {s.freeRegisteredAgent && (
+                  <div class="text-success text-xs font-medium">Free registered agent (1yr)</div>
+                )}
+              </td>
+              <td class="p-3 align-top text-slate-charcoal">{s.primaryStrength}</td>
+              <td class="p-3 align-top text-slate-charcoal">{s.weakness ?? "—"}</td>
+              <td class="p-3 align-top">
+                <CTAButton
+                  href={s.affiliateUrl}
+                  variant="affiliate"
+                  ctaType="comparison-table"
+                  class="text-xs px-3 py-1.5"
+                >
+                  {s.affiliateLabel ?? "See pricing →"}
+                </CTAButton>
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="md:hidden space-y-4">
+    {
+      services.map((s) => (
+        <div class="border border-line rounded-md p-4">
+          <h4 class="font-bold text-slate-deep">{s.name}</h4>
+          {s.recommendedFor && (
+            <p class="text-xs text-caution mt-0.5">{s.recommendedFor}</p>
+          )}
+          <dl class="mt-3 space-y-2 text-sm">
+            <div>
+              <dt class="font-semibold text-xs uppercase tracking-wider text-caution">Pricing</dt>
+              <dd>
+                {s.oneTimePrice && <span>{s.oneTimePrice}</span>}
+                {s.monthlyPrice && <span class="block">{s.monthlyPrice}</span>}
+                {s.freeFirstYear && (
+                  <span class="text-success text-xs font-medium block mt-1">First year free</span>
+                )}
+              </dd>
+            </div>
+            <div>
+              <dt class="font-semibold text-xs uppercase tracking-wider text-caution">Strength</dt>
+              <dd>{s.primaryStrength}</dd>
+            </div>
+            {s.weakness && (
+              <div>
+                <dt class="font-semibold text-xs uppercase tracking-wider text-caution">Watch out</dt>
+                <dd>{s.weakness}</dd>
+              </div>
+            )}
+          </dl>
+          <CTAButton
+            href={s.affiliateUrl}
+            variant="affiliate"
+            ctaType="comparison-table-mobile"
+            class="mt-4 w-full"
+          >
+            {s.affiliateLabel ?? "See pricing →"}
+          </CTAButton>
+        </div>
+      ))
+    }
+  </div>
+</div>

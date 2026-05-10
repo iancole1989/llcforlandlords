@@ -1,0 +1,43 @@
+---
+import { SITE } from "@/lib/site";
+
+export interface Crumb {
+  label: string;
+  href?: string;
+}
+
+export interface Props {
+  items: Crumb[];
+}
+
+const { items } = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: items.map((it, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: it.label,
+    ...(it.href && { item: new URL(it.href, SITE.url).toString() }),
+  })),
+};
+---
+
+<nav aria-label="Breadcrumb" class="text-sm text-caution mb-4">
+  <ol class="flex flex-wrap items-center gap-x-2 gap-y-1">
+    {
+      items.map((it, i) => (
+        <li class="flex items-center gap-2">
+          {it.href && i < items.length - 1 ? (
+            <a href={it.href} class="hover:text-rust">{it.label}</a>
+          ) : (
+            <span class="text-slate-charcoal">{it.label}</span>
+          )}
+          {i < items.length - 1 && <span class="text-line">/</span>}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

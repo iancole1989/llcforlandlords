@@ -1,0 +1,47 @@
+---
+import { NAV, SITE } from "@/lib/site";
+---
+
+<header class="border-b border-line bg-canvas-white sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-canvas-white/90">
+  <div class="container-wide flex items-center justify-between h-16">
+    <a href="/" class="flex items-center gap-2.5 group" aria-label={SITE.name}>
+      <span class="block w-2.5 h-2.5 bg-rust rounded-sm transition-transform group-hover:rotate-45"></span>
+      <span class="font-heading font-extrabold text-slate-deep text-lg tracking-tight">
+        {SITE.name}
+      </span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-7" aria-label="Primary">
+      {
+        NAV.map((item) => (
+          <a
+            href={item.href}
+            class="text-sm font-medium text-slate-charcoal hover:text-rust transition-colors"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <details class="md:hidden relative">
+      <summary class="list-none cursor-pointer p-2 -mr-2" aria-label="Open menu">
+        <svg class="w-6 h-6 text-slate-deep" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </summary>
+      <nav class="absolute right-0 top-full mt-2 w-56 bg-canvas-white border border-line rounded-md shadow-lg py-2" aria-label="Mobile">
+        {
+          NAV.map((item) => (
+            <a
+              href={item.href}
+              class="block px-4 py-2 text-sm text-slate-charcoal hover:bg-canvas-subtle hover:text-rust"
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </details>
+  </div>
+</header>

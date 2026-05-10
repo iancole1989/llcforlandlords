@@ -1,0 +1,22 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Page not found"
+  description="That page doesn't exist."
+  noindex={true}
+>
+  <section class="container-article py-20 md:py-32 text-center">
+    <p class="font-heading font-bold text-rust uppercase tracking-wider text-sm mb-3">404</p>
+    <h1 class="font-heading font-extrabold text-4xl md:text-5xl text-slate-deep tracking-tight">
+      Page not found.
+    </h1>
+    <p class="mt-4 text-slate-charcoal">
+      That page either moved, never existed, or was never written. Try the homepage instead.
+    </p>
+    <a href="/" class="inline-block mt-8 px-5 py-3 rounded-md font-semibold text-sm bg-rust text-white hover:bg-rust-hover transition-colors no-underline">
+      ← Back to homepage
+    </a>
+  </section>
+</BaseLayout>

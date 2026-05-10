@@ -1,0 +1,28 @@
+---
+export interface Props {
+  variant?: "inline" | "compact";
+}
+
+const { variant = "inline" } = Astro.props;
+---
+
+{
+  variant === "inline" ? (
+    <div class="bg-canvas-card border border-line rounded-md p-4 my-6 text-sm text-slate-charcoal leading-relaxed">
+      <p class="font-semibold text-slate-deep mb-1">Affiliate Disclosure</p>
+      <p>
+        Some of the links on this page are affiliate links. If you click through and sign up for a
+        service, we may earn a commission at no additional cost to you. We only recommend services
+        we'd use ourselves — see our{" "}
+        <a href="/editorial-standards" class="underline">editorial standards</a>.
+      </p>
+    </div>
+  ) : (
+    <p class="text-xs text-caution leading-relaxed">
+      <strong class="font-semibold text-slate-charcoal">Affiliate disclosure:</strong> some links on
+      this site are affiliate links. We may earn a commission if you sign up at no additional cost
+      to you. See our{" "}
+      <a href="/affiliate-disclosure" class="underline hover:text-rust">full disclosure</a>.
+    </p>
+  )
+}

@@ -1,0 +1,49 @@
+---
+export interface Props {
+  pros: string[];
+  cons: string[];
+  prosLabel?: string;
+  consLabel?: string;
+}
+
+const {
+  pros,
+  cons,
+  prosLabel = "Pros",
+  consLabel = "Cons",
+} = Astro.props;
+---
+
+<div class="my-8 grid md:grid-cols-2 gap-4">
+  <div class="border border-success/30 bg-success/5 rounded-md p-5">
+    <h3 class="font-heading font-bold text-success uppercase text-xs tracking-wider mb-3">
+      {prosLabel}
+    </h3>
+    <ul class="space-y-2">
+      {
+        pros.map((point) => (
+          <li class="flex gap-2 text-slate-charcoal text-sm leading-relaxed">
+            <span class="text-success font-bold flex-shrink-0">+</span>
+            <span>{point}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="border border-rust/30 bg-rust/5 rounded-md p-5">
+    <h3 class="font-heading font-bold text-rust uppercase text-xs tracking-wider mb-3">
+      {consLabel}
+    </h3>
+    <ul class="space-y-2">
+      {
+        cons.map((point) => (
+          <li class="flex gap-2 text-slate-charcoal text-sm leading-relaxed">
+            <span class="text-rust font-bold flex-shrink-0">−</span>
+            <span>{point}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>

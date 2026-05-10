@@ -1,0 +1,47 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { SITE } from "@/lib/site";
+---
+
+<BaseLayout title="About" description={`About ${SITE.name} — what we do and who we write for.`}>
+  <section class="container-article py-12 md:py-16">
+    <h1 class="font-heading font-extrabold text-4xl md:text-5xl text-slate-deep tracking-tight">
+      About this site.
+    </h1>
+
+    <div class="prose prose-lg max-w-none mt-6">
+      <p>
+        LLCforLandlords is an LLC-formation reference site for landlords and rental-property
+        investors. We write specifically for people who own (or are about to own) investment
+        property — not for "any small business owner."
+      </p>
+
+      <p>
+        That distinction matters. Generic LLC content treats LLC formation as a one-size-fits-all
+        decision. Landlord LLC structuring isn't generic: a single-member LLC for a Florida duplex
+        has different asset-protection, tax, and financing implications than a multi-member series
+        LLC holding ten Texas properties. We cover the differences specifically.
+      </p>
+
+      <h2>What we cover</h2>
+      <ul>
+        <li>LLC formation guidance for rental property — when it makes sense, when it doesn't, and how to actually do it.</li>
+        <li>Honest reviews and comparisons of LLC formation services (LegalZoom, ZenBusiness, Northwest Registered Agent, Rocket Lawyer, IncFile).</li>
+        <li>Operating agreement templates for single-member and multi-member rental LLCs — reviewed by a licensed attorney before publication.</li>
+        <li>State-specific structuring guidance for the most common landlord-favoured states (Wyoming, Florida, Texas).</li>
+      </ul>
+
+      <h2>What we don't do</h2>
+      <ul>
+        <li>We don't write generic content for non-rental small businesses.</li>
+        <li>We don't push the highest-paying affiliate offer over the genuinely-better one.</li>
+        <li>We don't replace a CPA or attorney — we make sure you've got specific questions to ask one.</li>
+      </ul>
+
+      <p>
+        Read our <a href="/editorial-standards">editorial standards</a> for the specifics on how we
+        source, review, and update content.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,43 @@
+@import "@fontsource-variable/inter/index.css";
+@import "@fontsource-variable/inter/wght-italic.css";
+@import "@fontsource-variable/manrope/index.css";
+@import "@fontsource-variable/inter-tight/index.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-canvas-white text-slate-charcoal font-sans;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading text-slate-deep;
+  }
+
+  ::selection {
+    background: #fde68a;
+    color: #1F2937;
+  }
+}
+
+@layer components {
+  .container-article {
+    @apply max-w-article mx-auto px-5 sm:px-6;
+  }
+
+  .container-wide {
+    @apply max-w-6xl mx-auto px-5 sm:px-8;
+  }
+}

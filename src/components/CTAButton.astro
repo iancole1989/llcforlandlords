@@ -1,0 +1,44 @@
+---
+export interface Props {
+  href: string;
+  variant?: "affiliate" | "leadmagnet" | "closeiron" | "primary" | "secondary";
+  rel?: string;
+  target?: string;
+  ctaType?: string;
+  class?: string;
+}
+
+const {
+  href,
+  variant = "primary",
+  rel,
+  target,
+  ctaType,
+  class: className = "",
+} = Astro.props;
+
+const baseClasses =
+  "inline-flex items-center justify-center px-5 py-3 rounded-md font-semibold text-sm transition-colors no-underline";
+
+const variantClasses = {
+  affiliate: "bg-rust text-white hover:bg-rust-hover",
+  leadmagnet: "bg-slate-deep text-white hover:bg-slate-charcoal",
+  closeiron: "bg-canvas-card text-slate-deep border border-line hover:bg-line",
+  primary: "bg-rust text-white hover:bg-rust-hover",
+  secondary: "bg-canvas-card text-slate-deep border border-line hover:bg-line",
+}[variant];
+
+const computedRel =
+  rel ?? (variant === "affiliate" ? "sponsored noopener noreferrer" : undefined);
+const computedTarget = target ?? (variant === "affiliate" ? "_blank" : undefined);
+---
+
+<a
+  href={href}
+  class={`${baseClasses} ${variantClasses} ${className}`}
+  rel={computedRel}
+  target={computedTarget}
+  data-cta-type={ctaType ?? variant}
+>
+  <slot />
+</a>

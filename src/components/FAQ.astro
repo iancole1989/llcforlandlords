@@ -1,0 +1,46 @@
+---
+export interface FAQItem {
+  q: string;
+  a: string;
+}
+
+export interface Props {
+  items: FAQItem[];
+  heading?: string;
+  emitSchema?: boolean;
+}
+
+const { items, heading = "Frequently asked questions", emitSchema = true } = Astro.props;
+
+const schema = emitSchema
+  ? {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: items.map((it) => ({
+        "@type": "Question",
+        name: it.q,
+        acceptedAnswer: { "@type": "Answer", text: it.a },
+      })),
+    }
+  : null;
+---
+
+<section class="my-12">
+  <h2 class="font-heading font-bold text-2xl text-slate-deep mb-5">{heading}</h2>
+  <div class="space-y-2">
+    {
+      items.map((item) => (
+        <details class="group border border-line rounded-md">
+          <summary class="cursor-pointer list-none p-4 flex items-start justify-between gap-4 font-semibold text-slate-deep hover:bg-canvas-subtle">
+            <span>{item.q}</span>
+            <span class="text-rust flex-shrink-0 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <div class="px-4 pb-4 pt-0 text-slate-charcoal leading-relaxed">
+            <p>{item.a}</p>
+          </div>
+        </details>
+      ))
+    }
+  </div>
+  {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+</section>
