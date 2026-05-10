@@ -8,6 +8,7 @@ export const SITE = {
   author: "The LLCforLandlords team",
   ogImage: "/og-default.svg",
   twitterHandle: "@LLCforLandlords",
+  gaMeasurementId: "G-K1NM2F31HQ",
 } as const;
 
 export const NAV = [

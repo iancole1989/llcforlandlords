@@ -6,7 +6,7 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: "https://llcforlandlords.com",
   output: "static",
-  trailingSlash: "never",
+  trailingSlash: "always",
   build: {
     format: "directory",
   },
