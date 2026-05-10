@@ -7,6 +7,7 @@ import cloudflare from "@astrojs/cloudflare";
 
 export default defineConfig({
   site: "https://llcforlandlords.com",
+  output: "static",
   trailingSlash: "never",
 
   build: {
