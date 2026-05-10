@@ -53,7 +53,7 @@ const websiteJsonLd = {
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {articles.map((article) => (
             <a
-              href={`/llc-guide/${article.data.slug}`}
+              href={`/llc-guide/${article.slug}`}
               class="group block bg-canvas-white border border-line rounded-md p-5 hover:border-rust hover:shadow-sm transition-all"
             >
               {article.data.isPillar && (
