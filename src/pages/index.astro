@@ -3,8 +3,13 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { SITE } from "@/lib/site";
 
-const articles = (await getCollection("articles", ({ data }) => !data.draft))
-  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+const now = Date.now();
+const articles = (
+  await getCollection(
+    "articles",
+    ({ data }) => !data.draft && data.publishedAt.valueOf() <= now,
+  )
+).sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 
 const websiteJsonLd = {
   "@context": "https://schema.org",
