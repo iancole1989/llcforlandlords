@@ -11,16 +11,9 @@ const articles = (
   )
 ).sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 
-const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: SITE.name,
-  url: SITE.url,
-  description: SITE.description,
-};
 ---
 
-<BaseLayout title={SITE.name} description={SITE.description} jsonLd={websiteJsonLd}>
+<BaseLayout title={SITE.name} description={SITE.description}>
   <section class="container-wide py-16 md:py-24">
     <div class="max-w-3xl">
       <p class="text-sm font-semibold uppercase tracking-wider text-rust mb-3">

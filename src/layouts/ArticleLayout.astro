@@ -4,6 +4,7 @@ import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import AuthorBox from "@/components/AuthorBox.astro";
 import AffiliateDisclosure from "@/components/AffiliateDisclosure.astro";
 import { SITE } from "@/lib/site";
+import { articleEntity, breadcrumbListEntity } from "@/lib/schema";
 
 export interface Props {
   title: string;
@@ -31,28 +32,27 @@ const {
   isComparison = false,
 } = Astro.props;
 
-const articleUrl = new URL(`/llc-guide/${slug}`, SITE.url).toString();
+const articleUrl = new URL(`/llc-guide/${slug}/`, SITE.url).toString();
 
-const articleJsonLd = {
-  "@context": "https://schema.org",
-  "@type": schemaType,
-  headline: title,
-  description,
-  datePublished: publishedAt.toISOString(),
-  dateModified: updated.toISOString(),
-  author: {
-    "@type": "Organization",
-    name: author,
-    url: SITE.url,
-  },
-  publisher: {
-    "@type": "Organization",
-    name: SITE.name,
-    url: SITE.url,
-  },
-  mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
-  ...(heroImage && { image: heroImage.startsWith("http") ? heroImage : new URL(heroImage, SITE.url).toString() }),
-};
+const breadcrumbItems = [
+  { name: "Home", url: SITE.url },
+  { name: "LLC Guides", url: SITE.url },
+  { name: title },
+];
+
+const pageSchema = [
+  articleEntity({
+    url: articleUrl,
+    title,
+    description,
+    publishedAt,
+    updated,
+    image: heroImage,
+    schemaType,
+    authorName: author,
+  }),
+  breadcrumbListEntity(breadcrumbItems),
+];
 ---
 
 <BaseLayout
@@ -62,7 +62,7 @@ const articleJsonLd = {
   ogImage={heroImage}
   publishedAt={publishedAt}
   updatedAt={updated}
-  jsonLd={articleJsonLd}
+  jsonLd={pageSchema}
 >
   <article class="container-article py-10 md:py-14">
     <Breadcrumbs
