@@ -15,8 +15,8 @@ export const SITE = {
   // Fill these in as the accounts are created — they immediately feed
   // the Organization entity's sameAs array for Google + AI search engines.
   socials: {
-    facebook: "",
-    instagram: "",
+    facebook: "https://www.facebook.com/llcforlandlords/",
+    instagram: "https://www.instagram.com/llcforlandlords/",
     youtube: "",
     linkedin: "",
     twitter: "",
