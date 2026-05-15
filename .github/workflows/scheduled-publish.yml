@@ -1,0 +1,90 @@
+name: Scheduled publish
+
+# Replaces the n8n cron that previously triggered scheduled-publish builds.
+# Runs daily at 08:00 UTC (= 09:00 BST / 08:00 GMT — UK morning year-round).
+# Triggers a Cloudflare Pages rebuild so any article with publishedAt = today
+# becomes visible on the live site. Then pings IndexNow for newly-visible URLs.
+#
+# Manual trigger available via Actions tab → "Scheduled publish" → "Run workflow"
+# (useful for testing or recovering a missed fire).
+#
+# Required GitHub secret:
+#   CF_DEPLOY_HOOK — full Cloudflare Pages deploy hook URL
+#     (set under Settings → Secrets and variables → Actions → New repository secret)
+
+on:
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: scheduled-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Trigger CF deploy + IndexNow ping
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: https://llcforlandlords.com
+      INDEXNOW_ENDPOINT: https://api.indexnow.org/indexnow
+      BUILD_WAIT_SECONDS: 150
+
+    steps:
+      - name: Verify CF deploy hook is configured
+        run: |
+          if [ -z "${{ secrets.CF_DEPLOY_HOOK }}" ]; then
+            echo "::error::CF_DEPLOY_HOOK secret is not set. Add it under Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+
+      - name: Trigger Cloudflare Pages deploy
+        run: |
+          response=$(curl -sS -X POST "${{ secrets.CF_DEPLOY_HOOK }}" -w "\nHTTP_STATUS:%{http_code}")
+          status=$(echo "$response" | sed -n 's/.*HTTP_STATUS://p')
+          body=$(echo "$response" | sed '/HTTP_STATUS/d')
+          echo "Deploy hook response: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ] && [ "$status" != "201" ] && [ "$status" != "202" ]; then
+            echo "::error::Deploy hook returned non-success status: $status"
+            exit 1
+          fi
+
+      - name: Wait for build to complete
+        run: |
+          echo "Waiting ${BUILD_WAIT_SECONDS}s for CF Pages build + propagation..."
+          sleep ${BUILD_WAIT_SECONDS}
+
+      - name: Fetch published-today payload
+        id: fetch
+        run: |
+          payload=$(curl -sS "${SITE_URL}/api/published-today.json")
+          echo "Payload received:"
+          echo "$payload"
+          count=$(echo "$payload" | jq -r '.count')
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+          # Strip count + generatedAt fields for IndexNow body (it only wants host/key/keyLocation/urlList)
+          indexnow_body=$(echo "$payload" | jq -c '{host, key, keyLocation, urlList}')
+          {
+            echo "indexnow_body<<EOF"
+            echo "$indexnow_body"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Submit URLs to IndexNow (Bing / Yandex / Seznam)
+        if: steps.fetch.outputs.count != '0' && steps.fetch.outputs.count != ''
+        run: |
+          echo "Submitting ${{ steps.fetch.outputs.count }} URL(s) to IndexNow..."
+          response=$(curl -sS -X POST "$INDEXNOW_ENDPOINT" \
+            -H "Content-Type: application/json" \
+            -d '${{ steps.fetch.outputs.indexnow_body }}' \
+            -w "\nHTTP_STATUS:%{http_code}")
+          status=$(echo "$response" | sed -n 's/.*HTTP_STATUS://p')
+          echo "IndexNow response: $status"
+          if [ "$status" != "200" ] && [ "$status" != "202" ]; then
+            echo "::warning::IndexNow returned non-success status: $status"
+          fi
+
+      - name: No new articles today (skip IndexNow)
+        if: steps.fetch.outputs.count == '0' || steps.fetch.outputs.count == ''
+        run: echo "No articles published today. CF rebuild fired (idempotent). IndexNow skipped."
