@@ -30,8 +30,8 @@ export const ENTITY_IDS = {
 } as const;
 
 export const NAV = [
-  { label: "LLC Guides", href: "/" },
-  { label: "Editorial Standards", href: "/editorial-standards" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "LLC Guides", href: "/llc-guide/" },
+  { label: "Editorial Standards", href: "/editorial-standards/" },
+  { label: "About", href: "/about/" },
+  { label: "Contact", href: "/contact/" },
 ] as const;

@@ -1,0 +1,131 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { getCollection } from "astro:content";
+import { SITE } from "@/lib/site";
+import { breadcrumbListEntity } from "@/lib/schema";
+
+const now = Date.now();
+const articles = (
+  await getCollection(
+    "articles",
+    ({ data }) => !data.draft && data.publishedAt.valueOf() <= now,
+  )
+).sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+
+const pageTitle = "LLC Guides for Landlords and Rental Property Investors";
+const pageDescription =
+  "Plain-English LLC guides for landlords — formation, taxes, asset protection, state-by-state filing, and honest reviews of LLC formation services.";
+
+const pillarArticles = articles.filter((a) => a.data.isPillar);
+const comparisonArticles = articles.filter((a) => a.data.isComparison && !a.data.isPillar);
+const otherArticles = articles.filter((a) => !a.data.isPillar && !a.data.isComparison);
+
+const breadcrumbItems = [
+  { name: "Home", url: SITE.url },
+  { name: "LLC Guides" },
+];
+
+const pageSchema = [breadcrumbListEntity(breadcrumbItems)];
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} jsonLd={pageSchema}>
+  <section class="container-wide pt-10 md:pt-14">
+    <Breadcrumbs
+      items={[
+        { label: "Home", href: "/" },
+        { label: "LLC Guides" },
+      ]}
+    />
+  </section>
+
+  <section class="container-wide pt-6 pb-10">
+    <div class="max-w-3xl">
+      <p class="text-sm font-semibold uppercase tracking-wider text-rust mb-3">
+        LLC Guides
+      </p>
+      <h1 class="font-heading font-extrabold text-3xl md:text-4xl lg:text-5xl tracking-tight text-slate-deep leading-[1.1]">
+        Every LLC guide we've written for landlords.
+      </h1>
+      <p class="mt-5 text-lg text-slate-charcoal leading-relaxed">
+        Formation, taxes, asset protection, state-by-state notes, and honest reviews of LLC services
+        — all written for people who own (or want to own) rental property.
+      </p>
+    </div>
+  </section>
+
+  {pillarArticles.length > 0 && (
+    <section class="container-wide pb-12">
+      <h2 class="font-heading font-bold text-2xl md:text-3xl text-slate-deep mb-6">
+        Start here — pillar guides
+      </h2>
+      <div class="grid md:grid-cols-2 gap-5">
+        {pillarArticles.map((article) => (
+          <a
+            href={`/llc-guide/${article.slug}/`}
+            class="group block bg-canvas-white border border-line rounded-md p-6 hover:border-rust hover:shadow-sm transition-all"
+          >
+            <span class="inline-block text-xs font-bold uppercase tracking-wider text-rust mb-2">
+              Pillar guide
+            </span>
+            <h3 class="font-heading font-bold text-xl text-slate-deep group-hover:text-rust transition-colors leading-snug">
+              {article.data.title}
+            </h3>
+            <p class="mt-2 text-sm text-slate-charcoal leading-relaxed">
+              {article.data.description}
+            </p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {comparisonArticles.length > 0 && (
+    <section class="container-wide pb-12">
+      <h2 class="font-heading font-bold text-2xl md:text-3xl text-slate-deep mb-6">
+        LLC service reviews & comparisons
+      </h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {comparisonArticles.map((article) => (
+          <a
+            href={`/llc-guide/${article.slug}/`}
+            class="group block bg-canvas-white border border-line rounded-md p-5 hover:border-rust hover:shadow-sm transition-all"
+          >
+            <span class="inline-block text-xs font-bold uppercase tracking-wider text-rust mb-2">
+              Comparison
+            </span>
+            <h3 class="font-heading font-bold text-lg text-slate-deep group-hover:text-rust transition-colors leading-snug">
+              {article.data.title}
+            </h3>
+            <p class="mt-2 text-sm text-slate-charcoal leading-relaxed line-clamp-3">
+              {article.data.description}
+            </p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {otherArticles.length > 0 && (
+    <section class="container-wide pb-20">
+      <h2 class="font-heading font-bold text-2xl md:text-3xl text-slate-deep mb-6">
+        All other LLC guides
+      </h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {otherArticles.map((article) => (
+          <a
+            href={`/llc-guide/${article.slug}/`}
+            class="group block bg-canvas-white border border-line rounded-md p-5 hover:border-rust hover:shadow-sm transition-all"
+          >
+            <h3 class="font-heading font-bold text-lg text-slate-deep group-hover:text-rust transition-colors leading-snug">
+              {article.data.title}
+            </h3>
+            <p class="mt-2 text-sm text-slate-charcoal leading-relaxed line-clamp-3">
+              {article.data.description}
+            </p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>

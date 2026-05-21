@@ -36,7 +36,7 @@ const articleUrl = new URL(`/llc-guide/${slug}/`, SITE.url).toString();
 
 const breadcrumbItems = [
   { name: "Home", url: SITE.url },
-  { name: "LLC Guides", url: SITE.url },
+  { name: "LLC Guides", url: `${SITE.url}/llc-guide/` },
   { name: title },
 ];
 
@@ -68,7 +68,7 @@ const pageSchema = [
     <Breadcrumbs
       items={[
         { label: "Home", href: "/" },
-        { label: "LLC Guides", href: "/" },
+        { label: "LLC Guides", href: "/llc-guide/" },
         { label: title },
       ]}
     />

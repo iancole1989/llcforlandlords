@@ -51,7 +51,7 @@ const articles = (
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {articles.map((article) => (
             <a
-              href={`/llc-guide/${article.slug}`}
+              href={`/llc-guide/${article.slug}/`}
               class="group block bg-canvas-white border border-line rounded-md p-5 hover:border-rust hover:shadow-sm transition-all"
             >
               {article.data.isPillar && (
@@ -103,7 +103,7 @@ const articles = (
             <li>→ Every commercial article reviewed quarterly for stale data.</li>
           </ul>
           <p class="mt-3 text-sm">
-            <a href="/editorial-standards" class="text-rust underline">Read our editorial standards →</a>
+            <a href="/editorial-standards/" class="text-rust underline">Read our editorial standards →</a>
           </p>
         </div>
       </div>
