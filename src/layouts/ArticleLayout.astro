@@ -4,7 +4,7 @@ import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import AuthorBox from "@/components/AuthorBox.astro";
 import AffiliateDisclosure from "@/components/AffiliateDisclosure.astro";
 import { SITE } from "@/lib/site";
-import { articleEntity, breadcrumbListEntity } from "@/lib/schema";
+import { articleEntity } from "@/lib/schema";
 
 export interface Props {
   title: string;
@@ -34,12 +34,8 @@ const {
 
 const articleUrl = new URL(`/llc-guide/${slug}/`, SITE.url).toString();
 
-const breadcrumbItems = [
-  { name: "Home", url: SITE.url },
-  { name: "LLC Guides", url: `${SITE.url}/llc-guide/` },
-  { name: title },
-];
-
+// BreadcrumbList JSON-LD is emitted once, by the <Breadcrumbs> component below,
+// so it stays in sync with the visible breadcrumb trail (no duplicate block).
 const pageSchema = [
   articleEntity({
     url: articleUrl,
@@ -51,7 +47,6 @@ const pageSchema = [
     schemaType,
     authorName: author,
   }),
-  breadcrumbListEntity(breadcrumbItems),
 ];
 ---
 
